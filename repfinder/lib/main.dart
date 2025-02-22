@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:repfinder/home/home.dart';
 import 'constants.dart';
 
 void main() {
@@ -36,7 +37,7 @@ class Repfinder extends StatelessWidget {
           primary: AppColors.white,
         ),
       ),
-      home: const Home(title: 'Repfinder'),
+      home: HomePage(),
     );
   }
 }
