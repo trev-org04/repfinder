@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repfinder/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../constants.dart';
@@ -7,8 +8,30 @@ void main() {
   runApp(HomePage());
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String firstName = "Loading..."; // default text
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserName();
+  }
+
+  Future<void> fetchUserName() async {
+    final user = supabase.auth.currentUser;
+    if (user != null && user.userMetadata != null) {
+      setState(() {
+        firstName = user.userMetadata!['first_name'] ?? "User";
+      });
+    }
+  }
 
   // called when flutter needs to rebuild ui
   @override
@@ -17,7 +40,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Align(
           alignment: Alignment.centerLeft,
-          child: Text('Hello Aneesh!', style: GoogleFonts.inter(fontSize: 20)),
+          child: Text(
+            'Hello, $firstName!',
+            style: GoogleFonts.inter(fontSize: 20),
+          ),
         ),
         backgroundColor: AppColors.black,
         automaticallyImplyLeading: false,

@@ -9,6 +9,7 @@ import 'constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // /Users/kathirmaari/Projects/personal_projects/hackai_2025/repfinder/repfinder/assets/
   await dotenv.load(fileName: '.env');
 
   await Supabase.initialize(
