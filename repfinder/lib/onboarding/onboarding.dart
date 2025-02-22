@@ -108,7 +108,9 @@ class Onboarding extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                       Navigator.pushNamed(context, '/signup');
+                    },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
                         Colors.transparent,
