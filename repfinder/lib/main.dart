@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repfinder/home/home.dart';
 import 'package:repfinder/onboarding/onboarding.dart';
 import 'package:repfinder/onboarding/sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -7,7 +8,7 @@ import 'constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: '../assets/.env');
 
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
@@ -18,6 +19,8 @@ void main() async {
   runApp(const Repfinder());
 }
 
+final supabase = Supabase.instance.client;
+
 class Repfinder extends StatelessWidget {
   const Repfinder({super.key});
 
@@ -25,10 +28,12 @@ class Repfinder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => Onboarding(),
         '/signin': (context) => SignIn(),
+        '/home': (context) => HomePage(),
       },
       title: 'Rep Finder',
       theme: ThemeData(

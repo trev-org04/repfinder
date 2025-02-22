@@ -20,6 +20,7 @@ class HomePage extends StatelessWidget {
           child: Text('Hello Aneesh!', style: GoogleFonts.inter(fontSize: 20)),
         ),
         backgroundColor: AppColors.black,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
