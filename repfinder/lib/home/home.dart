@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
+                  padding: const EdgeInsets.only(top: 25.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.42,
                     height: 100,
@@ -219,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(width:30),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
+                  padding: const EdgeInsets.only(top: 25.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.42,
                     height: 100,
