@@ -3,7 +3,6 @@ import 'package:repfinder/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 
 void main() {
@@ -14,11 +13,15 @@ class Machine {
   final String name;
   final String muscleGroup;
   final String status;
+  final int id;
+  int capacity;
 
   Machine({
     required this.name,
     required this.muscleGroup,
     required this.status,
+    required this.id,
+    required this.capacity,
   });
 }
 
@@ -68,11 +71,17 @@ class _HomePageState extends State<HomePage> {
     final response = await supabase.from('machines').select();
     List<Machine> machineData = [];
     for (var row in response) {
+      final queue = await supabase
+          .from('waitingqueue')
+          .select()
+          .eq('machine_id', row['machine_id']);
       machineData.add(
         Machine(
+          id: row['machine_id'] as int,
           name: row['name'] as String,
           muscleGroup: row['muscle_group'] as String,
           status: row['status'] as String,
+          capacity: queue.length,
         ),
       );
     }
@@ -96,20 +105,29 @@ class _HomePageState extends State<HomePage> {
   }
 
   void subscribeToMachineChanges() {
-    supabase
-        .channel(
-          'public:machines',
-        ) // Subscribe to machines table in the public schema
-        .onPostgresChanges(
-          event: PostgresChangeEvent.all, // Listen for INSERT, UPDATE, DELETE
-          schema: 'public',
-          table: 'machines',
-          callback: (payload) {
-            print('Machine table updated: $payload');
-            fetchCapacityData(); // Re-fetch capacity when a change is detected
-          },
-        )
-        .subscribe();
+    supabase.from('machines').stream(primaryKey: ['machine_id']).listen((
+      event,
+    ) {
+      fetchCapacityData();
+    });
+  }
+
+  void subscribeToQueueChanges() {
+    supabase.from('waitingqueue').stream(primaryKey: ['queue_id']).listen((
+      event,
+    ) {
+      updateMachineCapacity();
+    });
+  }
+
+  void updateMachineCapacity() async {
+    for (var machine in machines) {
+      final queue = await supabase
+          .from('waitingqueue')
+          .select()
+          .eq('machine_id', machine.id);
+      machine.capacity = queue.length;
+    }
   }
 
   Future<void> fetchCapacityData() async {
@@ -122,7 +140,7 @@ class _HomePageState extends State<HomePage> {
           .from('machines')
           .select('machine_id');
 
-      if (peopleResponse == null || machinesResponse == null) {
+      if (peopleResponse.isEmpty || machinesResponse.isEmpty) {
         return;
       }
 
@@ -182,8 +200,8 @@ class _HomePageState extends State<HomePage> {
                       width: 70,
                       height: 70,
                       child: CircularPercentIndicator(
-                        animation: true,
-                        animationDuration: 1000,
+                        // animation: true,
+                        // animationDuration: 1000,
                         radius: 70,
                         lineWidth: 10,
                         percent: capacityRatio,
@@ -234,7 +252,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            'The gym is almost at full capacity!',
+                            (capacityRatio * 100).toInt() > 90
+                                ? 'The gym is almost at full capacity!'
+                                : (capacityRatio * 100).toInt() > 70
+                                ? 'The gym is getting busy!'
+                                : 'The gym is not too busy!',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w400,
@@ -248,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // Muscle Group SelectorS
+            // Muscle Group Selectors
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: SingleChildScrollView(
@@ -363,7 +385,7 @@ class _HomePageState extends State<HomePage> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 5.0),
                                     child: Text(
-                                      '5',
+                                      machine.capacity.toString(),
                                       style: GoogleFonts.inter(
                                         fontSize: 15,
                                         color: AppColors.white.withOpacity(0.5),
