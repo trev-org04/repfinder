@@ -59,11 +59,7 @@ class _HomePageState extends State<HomePage> {
               height: 105,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                  colors: [AppColors.lavender, AppColors.periwinkle],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                color: AppColors.offblack,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(10),
