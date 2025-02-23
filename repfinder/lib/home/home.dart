@@ -3,6 +3,7 @@ import 'package:repfinder/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 
 void main() {
@@ -23,6 +24,22 @@ class Machine {
     required this.id,
     required this.capacity,
   });
+
+  Machine copyWith({
+    String? name,
+    String? muscleGroup,
+    String? status,
+    int? id,
+    int? capacity,
+  }) {
+    return Machine(
+      name: name ?? this.name,
+      muscleGroup: muscleGroup ?? this.muscleGroup,
+      status: status ?? this.status,
+      id: id ?? this.id,
+      capacity: capacity ?? this.capacity,
+    );
+  }
 }
 
 class HomePage extends StatefulWidget {
@@ -56,6 +73,7 @@ class _HomePageState extends State<HomePage> {
     fetchMachines();
     fetchCapacityData();
     subscribeToMachineChanges();
+    subscribeToQueueUpdates();
   }
 
   void fetchUserName() async {
@@ -116,18 +134,86 @@ class _HomePageState extends State<HomePage> {
     supabase.from('waitingqueue').stream(primaryKey: ['queue_id']).listen((
       event,
     ) {
+      print('QUEUE WAS CHANGED');
       updateMachineCapacity();
     });
   }
 
-  void updateMachineCapacity() async {
-    for (var machine in machines) {
-      final queue = await supabase
+  void subscribeToQueueUpdates() {
+    supabase
+        .channel('public:waitingqueue')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.delete,
+          schema: 'public',
+          table: 'waitingqueue',
+          callback: (payload) async {
+            print('Queue update detected: $payload');
+            await checkQueueForUser();
+          },
+        )
+        .subscribe();
+  }
+
+  Future<void> checkQueueForUser() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+    try {
+      final userQueueResponse =
+          await supabase
+              .from('waitingqueue')
+              .select('machine_id')
+              .eq('user_id', user.id)
+              .maybeSingle();
+      if (userQueueResponse == null) {
+        print("User is not in any queue.");
+        return;
+      }
+      int machineId = userQueueResponse['machine_id'];
+      final queueResponse = await supabase
           .from('waitingqueue')
-          .select()
-          .eq('machine_id', machine.id);
-      machine.capacity = queue.length;
+          .select('user_id')
+          .eq('machine_id', machineId)
+          .order('joined_queue', ascending: true)
+          .limit(1);
+      print(queueResponse);
+      if (queueResponse.isNotEmpty && queueResponse[0]['user_id'] == user.id) {
+        showQueueNotification(machineId);
+      }
+    } catch (e) {
+      print("Error checking queue status: $e");
     }
+  }
+
+  void showQueueNotification(int machineId) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Your turn! Machine #$machineId is now available.",
+          style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  void updateMachineCapacity() async {
+    print('in da func');
+    final queueData = await supabase.from('waitingqueue').select();
+    Map<int, int> machineQueueCount = {};
+    for (var row in queueData) {
+      int machineId = row['machine_id'] as int;
+      machineQueueCount[machineId] = (machineQueueCount[machineId] ?? 0) + 1;
+    }
+
+    setState(() {
+      machines =
+          machines.map((machine) {
+            return machine.copyWith(
+              capacity: machineQueueCount[machine.id] ?? 0,
+            );
+          }).toList();
+    });
   }
 
   Future<void> fetchCapacityData() async {
