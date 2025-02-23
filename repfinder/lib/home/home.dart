@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
     fetchUserName();
     fetchMachines();
     fetchCapacityData();
+    subscribeToMachineChanges();
   }
 
   void fetchUserName() async {
@@ -94,11 +95,32 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void subscribeToMachineChanges() {
+    supabase
+        .channel(
+          'public:machines',
+        ) // Subscribe to machines table in the public schema
+        .onPostgresChanges(
+          event: PostgresChangeEvent.all, // Listen for INSERT, UPDATE, DELETE
+          schema: 'public',
+          table: 'machines',
+          callback: (payload) {
+            print('Machine table updated: $payload');
+            fetchCapacityData(); // Re-fetch capacity when a change is detected
+          },
+        )
+        .subscribe();
+  }
+
   Future<void> fetchCapacityData() async {
     try {
-      final peopleResponse =
-          await supabase.from('machines').select('machine_id').eq('status', 'occupied');
-      final machinesResponse = await supabase.from('machines').select('machine_id');
+      final peopleResponse = await supabase
+          .from('machines')
+          .select('machine_id')
+          .eq('status', 'occupied');
+      final machinesResponse = await supabase
+          .from('machines')
+          .select('machine_id');
 
       if (peopleResponse == null || machinesResponse == null) {
         return;
@@ -106,6 +128,8 @@ class _HomePageState extends State<HomePage> {
 
       int peopleCount = peopleResponse.length; // Defaults to 0 if null
       int machinesCount = machinesResponse.length; // Prevent division by zero
+
+      print('Updating capacity ratio: $peopleCount / $machinesCount');
 
       setState(() {
         capacityRatio = (peopleCount / machinesCount);
