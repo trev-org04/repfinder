@@ -3,6 +3,7 @@ import 'package:repfinder/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../constants.dart';
 
 void main() {
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   List<Machine> machines = [];
   List<Machine> selectedMachines = [];
+  double capacityRatio = 0.0;
   List<String> muscleGroups = [
     'Abs',
     'Biceps',
@@ -49,6 +51,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchUserName();
     fetchMachines();
+    fetchCapacityData();
   }
 
   void fetchUserName() async {
@@ -89,6 +92,27 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedMachines = machineData;
     });
+  }
+
+  Future<void> fetchCapacityData() async {
+    try {
+      final peopleResponse =
+          await supabase.from('machines').select('machine_id').eq('status', 'occupied');
+      final machinesResponse = await supabase.from('machines').select('machine_id');
+
+      if (peopleResponse == null || machinesResponse == null) {
+        return;
+      }
+
+      int peopleCount = peopleResponse.length; // Defaults to 0 if null
+      int machinesCount = machinesResponse.length; // Prevent division by zero
+
+      setState(() {
+        capacityRatio = (peopleCount / machinesCount);
+      });
+    } catch (e) {
+      print("Error fetching capacity data: $e");
+    }
   }
 
   // called when flutter needs to rebuild ui
@@ -138,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                         animationDuration: 1000,
                         radius: 70,
                         lineWidth: 10,
-                        percent: 0.7,
+                        percent: capacityRatio,
                         linearGradient: LinearGradient(
                           colors: [Colors.blue, Colors.purple],
                           begin: Alignment.topLeft,
@@ -157,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                 end: Alignment.bottomRight,
                               ).createShader(bounds),
                           child: Text(
-                            '70%',
+                            '${(capacityRatio * 100).toInt()}%',
                             style: GoogleFonts.inter(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
