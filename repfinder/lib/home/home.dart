@@ -43,7 +43,13 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.centerLeft,
           child: Text(
             'Hello, $firstName!',
-            style: GoogleFonts.inter(fontSize: 20),
+            style: TextStyle(
+              fontFamily: 'Polymath',
+              fontSize: 24,
+              fontVariations: [FontVariation('wght', 700)],
+              color: AppColors.white,
+              letterSpacing: -0.5,
+            ),
           ),
         ),
         backgroundColor: AppColors.black,
@@ -75,15 +81,33 @@ class _HomePageState extends State<HomePage> {
                         radius: 70,
                         lineWidth: 10,
                         percent: 0.7,
-                        progressColor: AppColors.navy,
+                        linearGradient: LinearGradient(
+                          colors: [Colors.blue,
+                                  Colors.purple,],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                         backgroundColor: AppColors.white,
                         circularStrokeCap: CircularStrokeCap.round,
-                        center: Text(
-                          '70%',
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.navy,
+                        center: ShaderMask(
+                          shaderCallback:
+                              (bounds) => LinearGradient(
+                                colors: [
+                                  Colors.blue,
+                                  Colors.purple,
+                                ], // Gradient colors
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ).createShader(bounds),
+                          child: Text(
+                            '70%',
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  Colors
+                                      .white, // Required but overridden by shader
+                            ),
                           ),
                         ),
                       ),
@@ -96,9 +120,12 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'North Recreation Center',
-                            style: GoogleFonts.inter(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
+                            style: TextStyle(
+                              fontFamily: 'Polymath',
+                              fontSize: 22,
+                              fontVariations: [FontVariation('wght', 700)],
+                              color: AppColors.white,
+                              letterSpacing: -0.5,
                             ),
                           ),
                           Text(
