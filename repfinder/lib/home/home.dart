@@ -409,7 +409,36 @@ class _HomePageState extends State<HomePage> {
                                     CircleBorder(),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () async {
+                                  try {
+                                    final user = supabase.auth.currentUser;
+                                    if (user == null) {
+                                      return;
+                                    }
+                                    // Step 1: Check if the user is already in the queue
+                                    final existingQueueResponse =
+                                        await supabase
+                                            .from('waitingqueue')
+                                            .select('machine_id')
+                                            .eq('user_id', user.id)
+                                            .maybeSingle(); // Get a single row if it exists
+
+                                    if (existingQueueResponse != null) {
+                                      print(
+                                        "User is already in queue for ${existingQueueResponse['machine_name']}",
+                                      );
+                                      return; // Prevent adding another entry
+                                    }
+                                    await supabase.from('waitingqueue').insert({
+                                      'machine_id': machine.id,
+                                      'user_id': user.id,
+                                      'joined_queue':
+                                          DateTime.now().toIso8601String(),
+                                    });
+                                  } catch (e) {
+                                    print("Error joining queue: $e");
+                                  }
+                                },
                                 child: Icon(Icons.add, size: 15),
                               ),
                             ],
