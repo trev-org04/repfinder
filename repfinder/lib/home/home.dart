@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repfinder/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import '../constants.dart';
 
 void main() {
@@ -141,68 +142,65 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal, // Enables horizontal scrolling
-              child: Row(
-                children: List.generate(7, (index) {
-                  List<String> muscleGroups = [
-                    'Abs',
-                    'Back',
-                    'Biceps',
-                    'Chest',
-                    'Legs',
-                    'Shoulders',
-                    'Triceps',
-                  ];
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: GestureDetector(
-                      onTap:
-                          () => {
-                            setState(() {
-                              _selectedIndex = index;
-                            }),
-                          },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 10,
-                        ),
-                        height: 40,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color:
-                              _selectedIndex == index
-                                  ? AppColors.periwinkle
-                                  : Colors.transparent,
-                          border: Border.all(
-                            color:
-                                _selectedIndex == index
-                                    ? Colors.transparent
-                                    : AppColors.white.withOpacity(0.5),
-                            width: 2.5,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: SingleChildScrollView(
+                scrollDirection:
+                    Axis.horizontal, // Enables horizontal scrolling
+                child: Row(
+                  children: List.generate(7, (index) {
+                    List<String> muscleGroups = [
+                      'Abs',
+                      'Biceps',
+                      'Back',
+                      'Chest',
+                      'Legs',
+                      'Shoulders',
+                      'Triceps',
+                    ];
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: GestureDetector(
+                        onTap:
+                            () => {
+                              setState(() {
+                                _selectedIndex = index;
+                              }),
+                            },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 5,
+                            horizontal: 10,
                           ),
-                          // color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          muscleGroups[index].toUpperCase(),
-                          style: GoogleFonts.inter(
-                            fontSize: 15,
-                            fontWeight:
-                                _selectedIndex == index
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
+                          height: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
                             color:
                                 _selectedIndex == index
-                                    ? AppColors.white
-                                    : AppColors.white.withOpacity(0.5),
+                                    ? AppColors.periwinkle
+                                    : AppColors.offblack,
+                            // color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            muscleGroups[index].toUpperCase(),
+                            style: GoogleFonts.inter(
+                              fontSize: 15,
+                              fontWeight:
+                                  _selectedIndex == index
+                                      ? FontWeight.w600
+                                      : FontWeight.w500,
+                              color:
+                                  _selectedIndex == index
+                                      ? AppColors.white
+                                      : AppColors.white.withOpacity(0.5),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
             ),
             Row(

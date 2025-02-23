@@ -103,10 +103,12 @@ class Onboarding extends StatelessWidget {
                     ),
                     child: Text(
                       'Sign In'.toUpperCase(),
-                      style: GoogleFonts.inter(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w800,
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
                         fontSize: 15,
+                        fontVariations: [FontVariation('wght', 900)],
+                        color: AppColors.black,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
@@ -139,10 +141,12 @@ class Onboarding extends StatelessWidget {
                     ),
                     child: Text(
                       'Sign Up'.toUpperCase(),
-                      style: GoogleFonts.inter(
-                        color: AppColors.white.withOpacity(0.5),
-                        fontWeight: FontWeight.w800,
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
                         fontSize: 15,
+                        fontVariations: [FontVariation('wght', 900)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
