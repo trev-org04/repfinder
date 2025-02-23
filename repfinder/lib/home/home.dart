@@ -272,28 +272,33 @@ class _HomePageState extends State<HomePage> {
                       color: AppColors.offblack,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                machine.name,
-                                style: TextStyle(
-                                  fontFamily: 'Polymath',
-                                  fontSize: 16,
-                                  fontVariations: [FontVariation('wght', 600)],
-                                  color: AppColors.white,
-                                  letterSpacing: -0.5,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  machine.name,
+                                  style: TextStyle(
+                                    fontFamily: 'Polymath',
+                                    fontSize: 16,
+                                    fontVariations: [
+                                      FontVariation('wght', 600),
+                                    ],
+                                    color: AppColors.white,
+                                    letterSpacing: -0.5,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Image.asset(
-                            'assets/images/${machine.name.toLowerCase().replaceAll(' ', '_')}.png',
-                            width: 100,
+                            'assets/images/${machine.name.trim().toLowerCase().replaceAll(' ', '-')}.png',
+                            width: 90,
                             fit: BoxFit.contain,
                           ),
                           Row(
@@ -325,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                     EdgeInsets.zero,
                                   ),
                                   minimumSize: WidgetStateProperty.all(
-                                    Size(30, 30),
+                                    Size(25, 25),
                                   ),
                                   backgroundColor: WidgetStateProperty.all(
                                     AppColors.periwinkle,
