@@ -82,8 +82,7 @@ class _HomePageState extends State<HomePage> {
                         lineWidth: 10,
                         percent: 0.7,
                         linearGradient: LinearGradient(
-                          colors: [Colors.blue,
-                                  Colors.purple,],
+                          colors: [Colors.blue, Colors.purple],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
@@ -205,6 +204,34 @@ class _HomePageState extends State<HomePage> {
                   );
                 }),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.42,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.offblack,
+                    ),
+                  ),
+                ),
+                SizedBox(width:30),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.42,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: AppColors.offblack,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
