@@ -12,10 +12,12 @@ class Onboarding extends StatelessWidget {
         backgroundColor: AppColors.black,
         title: Text(
           'Rep Finder'.toUpperCase(),
-          style: GoogleFonts.inter(
-            color: AppColors.white,
-            fontWeight: FontWeight.w900,
+          style: TextStyle(
+            fontFamily: 'Polymath',
             fontSize: 20,
+            fontVariations: [FontVariation('wght', 900)],
+            color: AppColors.white,
+            letterSpacing: -0.5,
           ),
         ),
       ),
@@ -32,10 +34,12 @@ class Onboarding extends StatelessWidget {
                 children: [
                   Text(
                     'No Wait,',
-                    style: GoogleFonts.inter(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w500,
+                    style: TextStyle(
+                      fontFamily: 'Polymath',
                       fontSize: 35,
+                      fontVariations: [FontVariation('wght', 700)],
+                      color: AppColors.white,
+                      letterSpacing: -0.5,
                     ),
                   ),
                   ShaderMask(
@@ -49,10 +53,12 @@ class Onboarding extends StatelessWidget {
                     },
                     child: Text(
                       'Just Lift.',
-                      style: GoogleFonts.inter(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w700,
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
                         fontSize: 45,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
@@ -109,7 +115,7 @@ class Onboarding extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: ElevatedButton(
                     onPressed: () {
-                       Navigator.pushNamed(context, '/signup');
+                      Navigator.pushNamed(context, '/signup');
                     },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
