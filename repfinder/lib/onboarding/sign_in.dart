@@ -54,10 +54,12 @@ class _SignInState extends State<SignIn> {
         backgroundColor: AppColors.black,
         title: Text(
           'Rep Finder'.toUpperCase(),
-          style: GoogleFonts.inter(
-            color: AppColors.white,
-            fontWeight: FontWeight.w900,
+          style: TextStyle(
+            fontFamily: 'Polymath',
             fontSize: 20,
+            fontVariations: [FontVariation('wght', 900)],
+            color: AppColors.white,
+            letterSpacing: -0.5,
           ),
         ),
       ),
@@ -82,11 +84,13 @@ class _SignInState extends State<SignIn> {
                       ).createShader(bounds);
                     },
                     child: Text(
-                      'Ready to',
-                      style: GoogleFonts.inter(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.w700,
+                      'Welcome Back',
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
                         fontSize: 30,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
@@ -100,7 +104,7 @@ class _SignInState extends State<SignIn> {
                       ).createShader(bounds);
                     },
                     child: Text(
-                      'Get Started?',
+                      'to the Future.',
                       style: GoogleFonts.inter(
                         color: AppColors.white,
                         fontWeight: FontWeight.w700,
@@ -108,12 +112,15 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
-                  Text(
-                    'Enter an email and password below to get started!',
-                    style: GoogleFonts.inter(
-                      color: AppColors.white.withOpacity(0.5),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text(
+                      'Enter your email and password below to continue your journey!',
+                      style: GoogleFonts.inter(
+                        color: AppColors.white.withOpacity(0.5),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   Padding(
@@ -123,10 +130,12 @@ class _SignInState extends State<SignIn> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 17.5),
                         hintText: 'Email'.toUpperCase(),
-                        hintStyle: GoogleFonts.inter(
+                        hintStyle: TextStyle(
+                          fontFamily: 'Polymath',
+                          fontSize: 16,
+                          fontVariations: [FontVariation('wght', 700)],
                           color: AppColors.white.withOpacity(0.5),
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15,
+                          letterSpacing: -0.5,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -143,10 +152,12 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 16,
+                        fontVariations: [FontVariation('wght', 700)],
                         color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
@@ -158,10 +169,12 @@ class _SignInState extends State<SignIn> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(horizontal: 17.5),
                         hintText: 'Password'.toUpperCase(),
-                        hintStyle: GoogleFonts.inter(
+                        hintStyle: TextStyle(
+                          fontFamily: 'Polymath',
+                          fontSize: 16,
+                          fontVariations: [FontVariation('wght', 700)],
                           color: AppColors.white.withOpacity(0.5),
-                          fontWeight: FontWeight.w800,
-                          fontSize: 15,
+                          letterSpacing: -0.5,
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -178,10 +191,12 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
                       ),
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 16,
+                        fontVariations: [FontVariation('wght', 700)],
                         color: AppColors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),
@@ -216,10 +231,12 @@ class _SignInState extends State<SignIn> {
                     ),
                     child: Text(
                       'Sign In'.toUpperCase(),
-                      style: GoogleFonts.inter(
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w800,
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
                         fontSize: 15,
+                        fontVariations: [FontVariation('wght', 900)],
+                        color: AppColors.black,
+                        letterSpacing: -0.5,
                       ),
                     ),
                   ),

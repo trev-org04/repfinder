@@ -1,4 +1,3 @@
-
 import 'package:repfinder/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +22,9 @@ class _SignUpState extends State<SignUp> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
         data: {
-          'first_name': firstNameController.text.trim(), // Store first name in user metadata
+          'first_name':
+              firstNameController.text
+                  .trim(), // Store first name in user metadata
         },
       );
 
@@ -44,10 +45,12 @@ class _SignUpState extends State<SignUp> {
         backgroundColor: AppColors.black,
         title: Text(
           'Rep Finder'.toUpperCase(),
-          style: GoogleFonts.inter(
-            color: AppColors.white,
-            fontWeight: FontWeight.w900,
+          style: TextStyle(
+            fontFamily: 'Polymath',
             fontSize: 20,
+            fontVariations: [FontVariation('wght', 900)],
+            color: AppColors.white,
+            letterSpacing: -0.5,
           ),
         ),
       ),
@@ -62,117 +65,173 @@ class _SignUpState extends State<SignUp> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Ready to',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 30,
-                      foreground: Paint()
-                        ..shader = LinearGradient(
-                          colors: <Color>[AppColors.lavender, AppColors.periwinkle],
-                        ).createShader(const Rect.fromLTWH(0, 0, 200, 70)),
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        colors: <Color>[
+                          AppColors.lavender,
+                          AppColors.periwinkle,
+                        ],
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      'Ready to',
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 30,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
+                      ),
                     ),
                   ),
-                  Text(
-                    'Get Started?',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 30,
-                      foreground: Paint()
-                        ..shader = LinearGradient(
-                          colors: <Color>[AppColors.lavender, AppColors.periwinkle],
-                        ).createShader(const Rect.fromLTWH(0, 0, 200, 70)),
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        colors: <Color>[
+                          AppColors.lavender,
+                          AppColors.periwinkle,
+                        ],
+                      ).createShader(bounds);
+                    },
+                    child: Text(
+                      'Get Started?',
+                      style: GoogleFonts.inter(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 30,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Enter your details below to sign up!',
-                    style: GoogleFonts.inter(
-                      color: AppColors.white.withOpacity(0.5),
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text(
+                      'Enter an email and password below to get started!',
+                      style: GoogleFonts.inter(
+                        color: AppColors.white.withOpacity(0.5),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 10),
 
                   // First Name Input Field
-                  TextField(
-                    controller: firstNameController,
-                    decoration: InputDecoration(
-                      hintText: 'First Name',
-                      hintStyle: GoogleFonts.inter(
-                        color: AppColors.white.withOpacity(0.5),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: TextField(
+                      controller: firstNameController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 17.5),
+                        hintText: 'First Name'.toUpperCase(),
+                        hintStyle: TextStyle(
+                          fontFamily: 'Polymath',
+                          fontSize: 16,
+                          fontVariations: [FontVariation('wght', 700)],
                           color: AppColors.white.withOpacity(0.5),
+                          letterSpacing: -0.5,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white.withOpacity(0.5),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.white),
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 16,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
-                    style: GoogleFonts.inter(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),
                   ),
-                  const SizedBox(height: 10),
-
                   // Email Input Field
-                  TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: GoogleFonts.inter(
-                        color: AppColors.white.withOpacity(0.5),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 17.5),
+                        hintText: 'Email'.toUpperCase(),
+                        hintStyle: TextStyle(
+                          fontFamily: 'Polymath',
+                          fontSize: 16,
+                          fontVariations: [FontVariation('wght', 700)],
                           color: AppColors.white.withOpacity(0.5),
+                          letterSpacing: -0.5,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white.withOpacity(0.5),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.white),
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 16,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
                     ),
-                    style: GoogleFonts.inter(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),
                   ),
-                  const SizedBox(height: 10),
 
                   // Password Input Field
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true, // Hide password input
-                    decoration: InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: GoogleFonts.inter(
-                        color: AppColors.white.withOpacity(0.5),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
+                  Padding(
+                    padding: EdgeInsets.only(top: 15),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 17.5),
+                        hintText: 'Email'.toUpperCase(),
+                        hintStyle: TextStyle(
+                          fontFamily: 'Polymath',
+                          fontSize: 16,
+                          fontVariations: [FontVariation('wght', 700)],
                           color: AppColors.white.withOpacity(0.5),
+                          letterSpacing: -0.5,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white.withOpacity(0.5),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColors.white),
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 16,
+                        fontVariations: [FontVariation('wght', 700)],
+                        color: AppColors.white,
+                        letterSpacing: -0.5,
                       ),
-                    ),
-                    style: GoogleFonts.inter(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
                     ),
                   ),
                 ],
@@ -182,28 +241,37 @@ class _SignUpState extends State<SignUp> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: signUp, // Calls sign-up function
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(AppColors.white),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 17.5),
-                    ),
-                    minimumSize: MaterialStateProperty.all(
-                      const Size(double.infinity, 0),
-                    ),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(11),
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return LinearGradient(
+                      colors: <Color>[AppColors.lavender, AppColors.periwinkle],
+                    ).createShader(bounds);
+                  },
+                  child: ElevatedButton(
+                    onPressed: signUp,
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(AppColors.white),
+                      padding: WidgetStateProperty.all(
+                        const EdgeInsets.symmetric(vertical: 17.5),
+                      ),
+                      minimumSize: WidgetStateProperty.all(
+                        const Size(double.infinity, 0),
+                      ),
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(11),
+                        ),
                       ),
                     ),
-                  ),
-                  child: Text(
-                    'Sign Up'.toUpperCase(),
-                    style: GoogleFonts.inter(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 15,
+                    child: Text(
+                      'Sign Up'.toUpperCase(),
+                      style: TextStyle(
+                        fontFamily: 'Polymath',
+                        fontSize: 15,
+                        fontVariations: [FontVariation('wght', 900)],
+                        color: AppColors.black,
+                        letterSpacing: -0.5,
+                      ),
                     ),
                   ),
                 ),
